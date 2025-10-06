@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "moduleResolution": "Bundler"
+  },
+  "include": [
+    "src/**/*",
+    "playground/**/*"
+  ],
+  "exclude": [
+    "src/**/__tests__/*"
+  ]
+}
