@@ -6,7 +6,7 @@ import { indentWithTab } from '@codemirror/commands'
 import { Annotation, Compartment, EditorState, StateEffect } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, keymap, placeholder } from '@codemirror/view'
-import { effectScope, nextTick, onMounted, onUnmounted, shallowRef, toValue, watch } from 'vue'
+import { effectScope, getCurrentInstance, nextTick, onMounted, onUnmounted, shallowRef, toValue, watch } from 'vue'
 import { basicSetup } from './basic-setup'
 
 export const ExternalChange = Annotation.define<boolean>()
@@ -56,10 +56,10 @@ export function useToggleExtension(view: MaybeRef<EditorView>) {
   }
 }
 
-function useBasicSetup(view: MaybeRef<EditorView>) {
+export function useBasicSetup(view: MaybeRef<EditorView>) {
   const compartment = new Compartment()
 
-  const getBasicSetup = (ops: CodeMirrorOptions['basicSetup'] = true) => {
+  const getBasicSetup = (ops: CodeMirrorOptions['basicSetup']) => {
     let basic: Extension
     if (typeof ops === 'object') {
       basic = basicSetup(ops)
@@ -84,13 +84,29 @@ function useBasicSetup(view: MaybeRef<EditorView>) {
   }
 }
 
+function tryOnMounted(fn: () => void) {
+  const instance = getCurrentInstance()
+  if (instance)
+    onMounted(fn)
+  else
+    fn()
+}
+
+function tryOnUnmounted(fn: () => void) {
+  const instance = getCurrentInstance()
+  if (instance)
+    onUnmounted(fn)
+  else
+    fn()
+}
+
 export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<CodeMirrorOptions>) {
   const state = shallowRef<EditorState>()
   const view = shallowRef<EditorView>()
 
   const {
     value,
-    basicSetup: basicSetupOps,
+    basicSetup: basicSetupOps = true,
     onChange,
     onFocus,
     onBlur,
@@ -223,13 +239,9 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
     })
   }
 
-  onMounted(() => {
-    processEditor()
-  })
+  tryOnMounted(processEditor)
 
-  onUnmounted(() => {
-    destroy()
-  })
+  tryOnUnmounted(destroy)
 
   return {
     state,
