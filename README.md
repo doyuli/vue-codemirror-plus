@@ -145,6 +145,82 @@ interface CodeMirrorOptions extends Omit<EditorStateConfig, 'doc' | 'extensions'
    */
   root?: ShadowRoot | Document
 }
+
+type VueCodeMirrorProps = Omit<CodeMirrorOptions, 'value'> & {
+  modelValue: string
+}
+
+interface MinimalSetupOptions {
+  highlightSpecialChars?: boolean
+  history?: boolean
+  drawSelection?: boolean
+  syntaxHighlighting?: boolean
+
+  defaultKeymap?: boolean
+  historyKeymap?: boolean
+}
+
+interface BasicSetupOptions extends MinimalSetupOptions {
+  lineNumbers?: boolean
+  highlightActiveLineGutter?: boolean
+  foldGutter?: boolean
+  dropCursor?: boolean
+  allowMultipleSelections?: boolean
+  indentOnInput?: boolean
+  bracketMatching?: boolean
+  closeBrackets?: boolean
+  autocompletion?: boolean
+  rectangularSelection?: boolean
+  crosshairCursor?: boolean
+  highlightActiveLine?: boolean
+  highlightSelectionMatches?: boolean
+
+  closeBracketsKeymap?: boolean
+  searchKeymap?: boolean
+  foldKeymap?: boolean
+  completionKeymap?: boolean
+  lintKeymap?: boolean
+  /**
+   * Facet for overriding the unit by which indentation happens. Should be a string consisting either entirely of spaces or entirely of tabs. When not set, this defaults to 2 spaces
+   * https://codemirror.net/docs/ref/#language.indentUnit
+   * @default 2
+   */
+  tabSize?: number
+}
+```
+
+## API
+
+### injectExtension
+
+Dynamically inject an extension into an existing editor instance.
+
+```ts
+import { javascript } from '@codemirror/lang-javascript'
+
+injectExtension(editorView, javascript())
+```
+
+### useToggleExtension
+
+A Vue 3 Composition API hook for managing toggleable extensions in reactive contexts.
+
+```ts
+const { toggle, isEnabled } = useToggleExtension(editorView)
+
+function toggleLineNumbers() {
+  toggle(lineNumbers())
+}
+```
+
+### useBasicSetup
+
+A Vue 3 Composition API hook for managing basic editor setups.
+
+```ts
+const { getBasicSetup, toggleBasicSetup } = useBasicSetup(editorView)
+
+toggleBasicSetup(getBasicSetup('minimal'))
 ```
 
 ## Credits
