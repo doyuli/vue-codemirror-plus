@@ -2,7 +2,6 @@
   "name": "vue-codemirror-plus",
   "type": "module",
   "version": "0.0.1",
-  "private": true,
   "packageManager": "pnpm@10.11.0",
   "description": "codemirror component for vue.",
   "author": "doyuli",
