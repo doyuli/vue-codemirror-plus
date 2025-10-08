@@ -117,7 +117,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
     onChange,
     onFocus,
     onBlur,
-    onReadly,
+    onReady,
     onUpdate,
     selection,
     autoFocus,
@@ -242,7 +242,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
         }
       })
 
-      onReadly?.(view.value, state.value)
+      onReady?.(view.value, state.value)
     })
   }
 

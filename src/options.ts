@@ -39,7 +39,7 @@ export interface CodeMirrorOptions extends Omit<EditorStateConfig, 'doc' | 'exte
   onFocus?: (viewUpdate: ViewUpdate) => void
   onBlur?: (viewUpdate: ViewUpdate) => void
   /** The first time the editor executes the event. */
-  onReadly?: (view: EditorView, state: EditorState) => void
+  onReady?: (view: EditorView, state: EditorState) => void
   /**
    * Extension values can be [provided](https://codemirror.net/6/docs/ref/#state.EditorStateConfig.extensions) when creating a state to attach various kinds of configuration and behavior information.
    * They can either be built-in extension-providing objects,

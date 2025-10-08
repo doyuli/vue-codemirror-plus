@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ViewUpdate } from '@codemirror/view'
 import type { CodeMirrorOptions } from '../src'
 import { javascript } from '@codemirror/lang-javascript'
 import { ref } from 'vue'
@@ -39,6 +40,10 @@ function handleBlur() {
 function handleFocus() {
   console.log('handleFocus')
 }
+
+function handleUpdate(vu: ViewUpdate) {
+  console.log('handleUpdate', vu)
+}
 </script>
 
 <template>
@@ -68,6 +73,7 @@ function handleFocus() {
     @change="handleChange"
     @focus="handleFocus"
     @blur="handleBlur"
+    @update="handleUpdate"
   />
 </template>
 

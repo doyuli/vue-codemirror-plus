@@ -25,18 +25,18 @@ describe('useCodemirror', () => {
   it('should be emits update', async () => {
     const onUpdate = vi.fn(() => { })
     const onChange = vi.fn(() => { })
-    const onReadly = vi.fn(() => { })
+    const onReady = vi.fn(() => { })
 
     const container = document.createElement('div')
     const { destroy, view } = useCodeMirror(container, {
       value: 'Hello World',
       onUpdate,
       onChange,
-      onReadly,
+      onReady,
     })
 
     await nextTick()
-    expect(onReadly).toBeCalledTimes(1)
+    expect(onReady).toBeCalledTimes(1)
     expect(onUpdate).toBeCalledTimes(0)
     expect(onChange).toBeCalledTimes(0)
 
@@ -44,7 +44,7 @@ describe('useCodemirror', () => {
       changes: { from: 0, to: view.value.state.doc.toString().length, insert: 'Hello My World' },
     })
 
-    expect(onReadly).toBeCalledTimes(1)
+    expect(onReady).toBeCalledTimes(1)
     expect(onUpdate).toBeCalledTimes(1)
     expect(onChange).toBeCalledTimes(1)
     expect(view.value.state.doc.toString()).toBe('Hello My World')

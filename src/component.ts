@@ -25,7 +25,7 @@ const emits = [
   'change',
   'blur',
   'focus',
-  'readly',
+  'ready',
   'update',
 ]
 
@@ -53,8 +53,8 @@ export const VueCodeMirror = defineComponent<VueCodeMirrorProps>({
         onFocus(vu) {
           emit('focus', vu)
         },
-        onReadly(v, s) {
-          emit('readly', v, s)
+        onReady(v, s) {
+          emit('ready', v, s)
         },
       }
     })
