@@ -105,8 +105,6 @@ function tryOnUnmounted(fn: () => void) {
   const instance = getCurrentInstance()
   if (instance)
     onUnmounted(fn)
-  else
-    fn()
 }
 
 export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<CodeMirrorOptions>) {
