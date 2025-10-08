@@ -20,7 +20,7 @@ export interface CodeMirrorOptions extends Omit<EditorStateConfig, 'doc' | 'exte
    * Whether to optional basicSetup by default
    * @default true
    */
-  basicSetup?: boolean | BasicSetupOptions
+  basicSetup?: 'basic' | 'minimal' | boolean | BasicSetupOptions
   /**
    * This disables editing of the editor content by the user.
    * @default true

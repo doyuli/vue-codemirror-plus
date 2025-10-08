@@ -1,13 +1,14 @@
 import type { Extension } from '@codemirror/state'
 import type { ViewUpdate } from '@codemirror/view'
 import type { MaybeRef } from 'vue'
+import type { MinimalSetupOptions } from './basic-setup'
 import type { CodeMirrorOptions } from './options'
 import { indentWithTab } from '@codemirror/commands'
 import { Annotation, Compartment, EditorState, StateEffect } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, keymap, placeholder } from '@codemirror/view'
 import { effectScope, getCurrentInstance, nextTick, onMounted, onUnmounted, shallowRef, toValue, watch } from 'vue'
-import { basicSetup } from './basic-setup'
+import { basicSetup, minimalSetup } from './basic-setup'
 
 export const ExternalChange = Annotation.define<boolean>()
 
@@ -59,10 +60,17 @@ export function useToggleExtension(view: MaybeRef<EditorView>) {
 export function useBasicSetup(view: MaybeRef<EditorView>) {
   const compartment = new Compartment()
 
+  const getMinimalSetup = (ops?: MinimalSetupOptions) => {
+    return minimalSetup(ops)
+  }
+
   const getBasicSetup = (ops: CodeMirrorOptions['basicSetup']) => {
     let basic: Extension
     if (typeof ops === 'object') {
       basic = basicSetup(ops)
+    }
+    else if (ops === 'minimal') {
+      basic = getMinimalSetup()
     }
     else if (ops) {
       basic = basicSetup()
@@ -80,6 +88,7 @@ export function useBasicSetup(view: MaybeRef<EditorView>) {
   return {
     compartment,
     getBasicSetup,
+    getMinimalSetup,
     toggleBasicSetup,
   }
 }
