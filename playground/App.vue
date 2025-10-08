@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { CodeMirrorOptions } from '../src'
 import { javascript } from '@codemirror/lang-javascript'
 import { ref } from 'vue'
-import { VueCodeMirror } from '../src/component'
-import { BasicSetupOptions } from '../src/basic-setup'
+import { VueCodeMirror } from '../src'
 
 const code = ref('const a = 1')
 
@@ -22,29 +22,23 @@ function toggleExtensions() {
   extensions.value = extensions.value.length ? [] : [javascript()]
 }
 
-const basicSetup = ref<BasicSetupOptions>({
-  lineNumbers: true,
-  highlightActiveLine: true,
-  foldGutter: true,
-  dropCursor: true,
-  allowMultipleSelections: true
-})
+const basicSetup = ref<CodeMirrorOptions['basicSetup']>('basic')
+
 function toggleBasicSetup() {
-  basicSetup.value.lineNumbers = !basicSetup.value.lineNumbers
+  basicSetup.value = basicSetup.value === 'basic' ? 'minimal' : 'basic'
 }
 
 function handleChange(doc: string) {
-  console.log('onChange', doc);
+  console.log('onChange', doc)
 }
 
 function handleBlur() {
-  console.log('handleBlur');
+  console.log('handleBlur')
 }
 
 function handleFocus() {
-  console.log('handleFocus');
+  console.log('handleFocus')
 }
-
 </script>
 
 <template>
@@ -61,10 +55,20 @@ function handleFocus() {
   <button @click="toggleBasicSetup">
     toggleBasicSetup
   </button>
-  <VueCodeMirror v-model="code" :disabled="disabled" :custom-style="{
-    height: '300px',
-  }" :theme="theme" placeholder="请输入" :extensions="extensions" @change="handleChange" @focus="handleFocus"
-    :basic-setup="basicSetup" @blur="handleBlur" />
+  <VueCodeMirror
+    v-model="code"
+    :disabled="disabled"
+    :custom-style="{
+      height: '300px',
+    }"
+    :theme="theme"
+    placeholder="请输入"
+    :extensions="extensions"
+    :basic-setup="basicSetup"
+    @change="handleChange"
+    @focus="handleFocus"
+    @blur="handleBlur"
+  />
 </template>
 
 <style scoped></style>

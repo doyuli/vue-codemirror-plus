@@ -4,4 +4,10 @@ export default antfu(
   {
     formatters: true,
   },
+  {
+    files: ['playground/**/*'],
+    rules: {
+      'no-console': 'off',
+    },
+  },
 )
