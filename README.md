@@ -6,7 +6,7 @@ Codemirror component for vue3.
 
 ```bash
 
-npm install codemirror vue-codemirror-plus
+npm install vue-codemirror-plus
 
 ```
 
@@ -188,6 +188,16 @@ interface BasicSetupOptions extends MinimalSetupOptions {
   tabSize?: number
 }
 ```
+
+## Component Exposes
+
+| name        | description                                    | types                    |
+| :---------- | :--------------------------------------------- | :----------------------- |
+| state       | CodeMirror editor state instance.              | `EditorState`            |
+| view        | CodeMirror editor view instance.               | `EditorView`             |
+| inject      | Dynamically inject extensions into CodeMirror. | `(e: Extension) => void` |
+| getValue    | Get the current content of the editor.         | `() => string`           |
+| forceUpdate | Force update the editor content.               | `(v: string) => void`    |
 
 ## API
 
