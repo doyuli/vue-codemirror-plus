@@ -1,6 +1,6 @@
 import type { Extension } from '@codemirror/state'
 import type { ViewUpdate } from '@codemirror/view'
-import type { MaybeRef } from 'vue'
+import type { MaybeRef, WatchCallback, WatchOptions, WatchSource } from 'vue'
 import type { MinimalSetupOptions } from './basic-setup'
 import type { CodeMirrorOptions } from './options'
 import { indentWithTab } from '@codemirror/commands'
@@ -107,6 +107,21 @@ function tryOnUnmounted(fn: () => void) {
     onUnmounted(fn)
 }
 
+function watchImmediate<T>(
+  source: WatchSource<T>,
+  cb: WatchCallback<T, T | undefined>,
+  options?: Omit<WatchOptions, 'immediate'>,
+) {
+  return watch(
+    source,
+    cb,
+    {
+      ...options,
+      immediate: true,
+    },
+  )
+}
+
 export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<CodeMirrorOptions>) {
   const state = shallowRef<EditorState>()
   const view = shallowRef<EditorView>()
@@ -181,7 +196,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
         )
 
         const { toggle: toggleTheme } = useToggleExtension(view.value)
-        watch(
+        watchImmediate(
           () => toValue(options).theme,
           (val) => {
             const e: Extension = typeof val !== 'string' ? val : val === 'dark' ? oneDark : []
@@ -190,7 +205,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
         )
 
         const { toggle: toggleCustomStyle } = useToggleExtension(view.value)
-        watch(
+        watchImmediate(
           () => toValue(options).customStyle,
           (val) => {
             val && toggleCustomStyle(
@@ -203,7 +218,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
         )
 
         const { toggle: toggleIndentWithTab } = useToggleExtension(view.value)
-        watch(
+        watchImmediate(
           () => toValue(options).indentWithTab,
           (val) => {
             const e: Extension = val !== false ? keymap.of([indentWithTab]) : []
@@ -213,7 +228,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
 
         const { toggle: toggleDisabled } = useToggleExtension(view.value)
         const disabledExtension = [EditorView.editable.of(false), EditorState.readOnly.of(true)]
-        watch(
+        watchImmediate(
           () => toValue(options).disabled,
           (val) => {
             const e: Extension = val ? disabledExtension : []
@@ -222,7 +237,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
         )
 
         const { toggle: togglePlaceholder } = useToggleExtension(view.value)
-        watch(
+        watchImmediate(
           () => toValue(options).placeholder,
           (val) => {
             togglePlaceholder(placeholder(val ?? ''))
@@ -230,7 +245,7 @@ export function useCodeMirror(container: MaybeRef<Element>, options: MaybeRef<Co
         )
 
         const { toggle: toggleUserExtension } = useToggleExtension(view.value)
-        watch(
+        watchImmediate(
           () => toValue(options).extensions,
           (val) => {
             toggleUserExtension(val ?? [])
