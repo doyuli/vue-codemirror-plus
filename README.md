@@ -6,7 +6,7 @@ Codemirror component for vue3.
 
 ```bash
 
-npm install vue-codemirror-plus
+npm install codemirror vue-codemirror-plus
 
 ```
 

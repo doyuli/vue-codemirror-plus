@@ -1,7 +1,7 @@
 {
   "name": "vue-codemirror-plus",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "packageManager": "pnpm@10.11.0",
   "description": "codemirror component for vue.",
   "author": "doyuli",
@@ -40,6 +40,7 @@
     "test": "vitest",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
+    "prepack": "pnpm run build",
     "postinstall": "simple-git-hooks"
   },
   "peerDependencies": {
